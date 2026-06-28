@@ -7,16 +7,22 @@ const { Pool } = pg;
 // so we accept them rather than failing verification.
 const ssl = config.dbSsl ? { rejectUnauthorized: false } : false;
 
+// GUARDRAIL: pin every connection to UTC at startup so naive API timestamps
+// (e.g. "2026-05-17T20:15:00", no offset) are ingested as UTC, not the server's
+// local zone. Passed as a libpq startup option so there's no extra round-trip
+// or race with the first query. See docs/RESILIENCE.md.
+const baseOptions = { ssl, options: '-c timezone=UTC' };
+
 // A single shared connection pool for the whole app.
 export const pool = config.databaseUrl
-  ? new Pool({ connectionString: config.databaseUrl, ssl })
+  ? new Pool({ connectionString: config.databaseUrl, ...baseOptions })
   : new Pool({
       host: config.db.host,
       port: config.db.port,
       user: config.db.user,
       password: config.db.password,
       database: config.db.database,
-      ssl,
+      ...baseOptions,
     });
 
 pool.on('error', (err) => {
