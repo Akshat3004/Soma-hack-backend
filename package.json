@@ -1,0 +1,22 @@
+{
+  "name": "aib-pulse-backend",
+  "version": "1.0.0",
+  "description": "Express + GraphQL + PostgreSQL backend for the ABI Frameworks wound-care billing pipeline",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "db:init": "node src/db/init.js",
+    "ingest": "node src/pipeline/ingest.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@as-integrations/express5": "^1.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "graphql": "^16.10.0",
+    "pg": "^8.13.1"
+  }
+}

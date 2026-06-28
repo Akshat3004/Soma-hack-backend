@@ -1,0 +1,23 @@
+-- Database schema placeholder.
+--
+-- Add your CREATE TABLE statements here. `npm run db:init` runs this file
+-- against the configured PostgreSQL database. Statements should be idempotent
+-- (use CREATE TABLE IF NOT EXISTS) so re-running is safe.
+--
+-- Example skeleton based on the PCC data model (see API.md) — uncomment and
+-- adapt once your GraphQL schema is finalized:
+--
+-- CREATE TABLE IF NOT EXISTS pcc_patient (
+--   patient_id        TEXT PRIMARY KEY,
+--   id                INTEGER UNIQUE,
+--   facility_id       INTEGER,
+--   first_name        TEXT,
+--   last_name         TEXT,
+--   birth_date        DATE,
+--   gender            TEXT,
+--   primary_payer_code TEXT,
+--   last_modified_at  TIMESTAMPTZ,
+--   is_new_admission  BOOLEAN
+-- );
+
+SELECT 'schema.sql is empty — add your tables here' AS note;
