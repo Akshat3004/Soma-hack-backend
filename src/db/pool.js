@@ -11,7 +11,19 @@ const ssl = config.dbSsl ? { rejectUnauthorized: false } : false;
 // (e.g. "2026-05-17T20:15:00", no offset) are ingested as UTC, not the server's
 // local zone. Passed as a libpq startup option so there's no extra round-trip
 // or race with the first query. See docs/RESILIENCE.md.
-const baseOptions = { ssl, options: '-c timezone=UTC' };
+// Pool hardening for a remote managed DB: cap connections, reap idle clients
+// (prevents the idle-connection buildup we saw against Render), and fail fast
+// instead of hanging when the DB is unreachable.
+const baseOptions = {
+  ssl,
+  options: '-c timezone=UTC',
+  max: 10,
+  idleTimeoutMillis: 30_000,
+  connectionTimeoutMillis: 10_000,
+  // Drop a connection after a while so a long-lived server doesn't sit on
+  // stale backends (Render recycles them).
+  maxLifetimeSeconds: 600,
+};
 
 // A single shared connection pool for the whole app.
 export const pool = config.databaseUrl
