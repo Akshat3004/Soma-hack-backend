@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { ApolloServer } from '@apollo/server';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { expressMiddleware } from '@as-integrations/express5';
 
 import { typeDefs } from './graphql/typeDefs.js';
@@ -32,6 +33,11 @@ export async function createApp() {
   const apollo = new ApolloServer({
     typeDefs,
     resolvers,
+    // Introspection is off by default when NODE_ENV=production (which we set on
+    // Render). Force it on so the schema is explorable and the Apollo Sandbox
+    // works in production. Safe here: read-only schema, no secrets exposed.
+    introspection: true,
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
   });
   await apollo.start();
 
