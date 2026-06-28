@@ -19,6 +19,18 @@ export async function createApp() {
   app.use(cors());
   app.use(express.json());
 
+  // Root index so the base URL isn't a bare "Cannot GET /".
+  app.get('/', (_req, res) => {
+    res.json({
+      service: 'soma-hack-backend',
+      status: 'ok',
+      endpoints: {
+        graphql: '/graphql',
+        health: '/health',
+      },
+    });
+  });
+
   // Plain REST health endpoint (handy for load balancers / quick curls).
   app.get('/health', async (_req, res) => {
     let db = false;
