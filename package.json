@@ -4,6 +4,9 @@
   "description": "Express + GraphQL + PostgreSQL backend for the ABI Frameworks wound-care billing pipeline",
   "type": "module",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=20 <23"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",

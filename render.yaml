@@ -1,0 +1,23 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: Render Dashboard → New → Blueprint → connect this repo.
+# DATABASE_URL is marked sync:false so the secret is entered in the dashboard,
+# not committed to git.
+services:
+  - type: web
+    name: soma-hack-backend
+    runtime: node
+    plan: free
+    region: virginia
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PGSSL
+        value: "true"
+      - key: PCC_BASE_URL
+        value: https://hackathon.prod.pulsefoundry.ai
+      - key: DATABASE_URL
+        sync: false
