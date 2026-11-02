@@ -14,7 +14,8 @@
     "db:migrate": "node src/db/migrate.js",
     "ingest": "node src/pipeline/sync.js --full",
     "sync": "node src/pipeline/sync.js --mode=incremental",
-    "reconcile": "node src/pipeline/sync.js --reconcile"
+    "reconcile": "node src/pipeline/sync.js --reconcile",
+    "test": "node --test"
   },
   "dependencies": {
     "@apollo/server": "^5.0.0",
